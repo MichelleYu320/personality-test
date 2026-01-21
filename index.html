@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나의 숨겨진 본능 동물은? 🐾 성향 테스트</title>
+    <meta name="description" content="3초 안에 선택하면 당신의 진짜 성격이 보인다! 16가지 동물 중 나는?">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            max-width: 900px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '🐾';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 40px;
+            opacity: 0.3;
+        }
+
+        .header::after {
+            content: '🐾';
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            font-size: 40px;
+            opacity: 0.3;
+            transform: rotate(180deg);
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header .subtitle {
+            font-size: 18px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .start-screen, .test-screen, .result-screen {
+            padding: 40px 30px;
+        }
+
+        .start-screen {
+            text-align: center;
+        }
+
+        .animal-preview {
+            font-size: 80px;
+            margin: 30px 0;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hook-text {
+            font-size: 22px;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .test-info {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: left;
+            border: 2px solid #e0e0e0;
+        }
+
+        .test-info h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .info-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-icon {
+            font-size: 24px;
+        }
+
+        .info-text {
+            flex: 1;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .start-btn, .choice-btn, .restart-btn, .share-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            font-size: 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .start-btn:hover, .restart-btn:hover, .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .test-screen {
+            display: none;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 10px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '🐾';
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .part-indicator {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 20px 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 3px solid #fab1a0;
+        }
+
+        .part-indicator h3 {
+            color: #d63031;
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .part-indicator p {
+            color: #2d3436;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .question-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 35px;
+            border-radius: 20px;
+            margin-bottom: 35px;
+            border: 2px solid #dee2e6;
+        }
+
+        .question-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .question-text {
+            color: #2d3436;
+            font-size: 24px;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        .choices {
+            display: flex;
+            gap: 20px;
+        }
+
+        .choice-btn {
+            flex: 1;
+            padding: 30px 25px;
+            font-size: 18px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            min-height: 180px;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .choice-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .choice-btn:hover::before {
+            opacity: 1;
+        }
+
+        .choice-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .choice-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .choice-label {
+            font-size: 36px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .choice-text {
+            text-align: center;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .result-screen {
+            display: none;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .result-animal {
+            font-size: 120px;
+            margin: 20px 0;
+            animation: popIn 0.5s ease-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .result-type-code {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 15px 0;
+            letter-spacing: 6px;
+        }
+
+        .result-nickname {
+            font-size: 28px;
+            color: #764ba2;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .result-oneline {
+            font-size: 18px;
+            color: #555;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .hashtags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .hashtag {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #2d3436;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .score-summary {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 2px solid #dee2e6;
+        }
+
+        .score-summary h3 {
+            color: #667eea;
+            margin-bottom: 25px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .score-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .score-item:last-child {
+            border-bottom: none;
+        }
+
+        .score-label {
+            font-weight: bold;
+            color: #2d3436;
+            font-size: 16px;
+        }
+
+        .score-value {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .score-count {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .score-a {
+            color: #667eea;
+        }
+
+        .score-b {
+            color: #999;
+        }
+
+        .score-result {
+            font-size: 28px;
+            font-weight: bold;
+            color: #667eea;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .report-section {
+            margin-bottom: 30px;
+        }
+
+        .report-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 18px 25px;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .report-content {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 30px;
+            border-radius: 15px;
+            line-height: 1.9;
+            color: #2d3436;
+            font-size: 16px;
+            border: 2px solid #dee2e6;
+        }
+
+        .compatibility-section {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .compatibility-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .compatibility-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .compatibility-item {
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .compatibility-best {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+
+        .compatibility-worst {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+        }
+
+        .compatibility-label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2d3436;
+        }
+
+        .compatibility-animals {
+            font-size: 24px;
+            line-height: 1.8;
+        }
+
+        .solution-section {
+            margin-top: 30px;
+        }
+
+        .solution-item {
+            background: white;
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .solution-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .solution-content {
+            color: #2d3436;
+            line-height: 1.9;
+            font-size: 16px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .share-btn {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .share-btn:hover {
+            box-shadow: 0 6px 20px rgba(0, 184, 148, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .header .subtitle {
+                font-size: 16px;
+            }
+
+            .animal-preview {
+                font-size: 60px;
+            }
+
+            .hook-text {
+                font-size: 18px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .question-text {
+                font-size: 20px;
+            }
+
+            .choices {
+                flex-direction: column;
+            }
+
+            .choice-btn {
+                min-height: auto;
+                padding: 25px 20px;
+            }
+
+            .result-animal {
+                font-size: 80px;
+            }
+
+            .result-type-code {
+                font-size: 24px;
+                letter-spacing: 4px;
+            }
+
+            .result-nickname {
+                font-size: 22px;
+            }
+
+            .compatibility-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .start-btn, .restart-btn, .share-btn {
+                width: 100%;
+            }
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+            border-left: 5px solid #ffc107;
+            padding: 20px 25px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .tip-box strong {
+            color: #856404;
+            font-size: 18px;
+        }
+
+        .tip-box p {
+            margin-top: 10px;
+            color: #856404;
+            line-height: 1.6;
+        }
+
+        .group-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>나의 숨겨진 본능 동물은? 🐾</h1>
+            <p class="subtitle">3초 안에 선택하면 당신의 진짜 성격이 보인다!</p>
+        </div>
+
+        <!-- 시작 화면 -->
+        <div class="start-screen" id="startScreen">
+            <div class="animal-preview">🦫🐿️🦅🦉🐶🐱🦁🐺🐰🐑🐘🐢🐻🐼🦏🦙</div>
+
+            <div class="hook-text">
+                🎯 16가지 동물 중 당신은?<br>
+                당신의 숨겨진 본능을 찾아드립니다!
+            </div>
+
+            <div class="test-info">
+                <h3>🎨 이런 테스트예요!</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-icon">⚡</div>
+                        <div class="info-text"><strong>3초 직관 선택</strong><br>중간은 없어요!</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">🎯</div>
+                        <div class="info-text"><strong>총 60문항</strong><br>4개 파트로 구성</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">🐾</div>
+                        <div class="info-text"><strong>16가지 동물</strong><br>나와 닮은 동물은?</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">💕</div>
+                        <div class="info-text"><strong>궁합까지!</strong><br>누구와 잘 맞을까?</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 TIP</strong>
+                <p>'중간'은 없습니다. 무조건 더 끌리는 쪽을 3초 안에 선택하세요!</p>
+            </div>
+
+            <button class="start-btn" onclick="startTest()">🎬 테스트 시작하기</button>
+        </div>
+
+        <!-- 테스트 화면 -->
+        <div class="test-screen" id="testScreen">
+            <div class="progress-text" id="progressText"></div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="part-indicator" id="partIndicator"></div>
+
+            <div class="question-box">
+                <div class="question-number" id="questionNumber"></div>
+                <div class="question-text" id="questionText"></div>
+            </div>
+
+            <div class="choices">
+                <button class="choice-btn" onclick="selectAnswer('A')">
+                    <span class="choice-label">A</span>
+                    <span class="choice-text" id="choiceA"></span>
+                </button>
+                <button class="choice-btn" onclick="selectAnswer('B')">
+                    <span class="choice-label">B</span>
+                    <span class="choice-text" id="choiceB"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 결과 화면 -->
+        <div class="result-screen" id="resultScreen">
+            <div class="result-header">
+                <h2 style="color: #667eea; font-size: 28px; margin-bottom: 20px;">🎉 당신의 본능 동물은...</h2>
+                <div class="result-animal" id="resultAnimal"></div>
+                <div class="result-type-code" id="resultTypeCode"></div>
+                <div class="result-nickname" id="resultNickname"></div>
+                <div class="result-oneline" id="resultOneLine"></div>
+                <div class="hashtags" id="hashtags"></div>
+                <div class="group-badge" id="groupBadge"></div>
+            </div>
+
+            <div class="score-summary" id="scoreSummary"></div>
+
+            <div class="compatibility-section">
+                <div class="compatibility-title">💕 나와의 궁합</div>
+                <div class="compatibility-grid">
+                    <div class="compatibility-item compatibility-best">
+                        <div class="compatibility-label">✨ 최고의 궁합</div>
+                        <div class="compatibility-animals" id="compatibilityBest"></div>
+                    </div>
+                    <div class="compatibility-item compatibility-worst">
+                        <div class="compatibility-label">⚠️ 조심해야 할 궁합</div>
+                        <div class="compatibility-animals" id="compatibilityWorst"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reportContent"></div>
+
+            <div class="action-buttons">
+                <button class="share-btn" onclick="shareResult()">
+                    <span>📤</span>
+                    <span>결과 공유하기</span>
+                </button>
+                <button class="restart-btn" onclick="restartTest()">
+                    <span>🔄</span>
+                    <span>다시 테스트하기</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="src/js/animals.js"></script>
+    <script>
+        const testData = {
+            parts: [
+                {
+                    id: 'NS',
+                    name: 'PART 1. 새로운 게 좋아?',
+                    subtitle: '자극 추구 (Novelty Seeking)',
+                    description: '호기심, 모험심, 충동성, 자유분방함',
+                    questions: [
+                        { q: '새로 생긴 식당이 있다.', a: '오, 궁금해! 맛없어도 한번 가보자.', b: '굳이? 검증된 맛집 가는 게 안전해.' },
+                        { q: '놀이공원에 갔다. 롤러코스터는?', a: '무조건 제일 무서운 거, 맨 앞자리!', b: '회전목마나 구경하는 게 좋아.' },
+                        { q: '갑자기 1억 원이 생겼다.', a: '주식, 코인, 사업에 투자해서 불린다.', b: '예금, 적금에 안전하게 넣어둔다.' },
+                        { q: '여행 스타일은?', a: '계획 없이 발길 닿는 대로, 현지인처럼!', b: '숙소, 교통편, 맛집 미리 다 예약해야 함.' },
+                        { q: '신제품 전자기기/과자가 나왔다.', a: '궁금해서 내가 먼저 사서 써봐야 직성이 풀림.', b: '남들 후기 보고 괜찮다 싶으면 그때 산다.' },
+                        { q: '규칙이나 매뉴얼을 볼 때', a: '일단 하면서 익히면 되지 하고 대충 본다.', b: '꼼꼼하게 읽고 순서대로 따라 한다.' },
+                        { q: '친구가 "지금 당장 바다 보러 갈래?"라고 묻는다면?', a: '콜! 지금 출발해!', b: '무슨 소리야, 내일 출근은? 옷은?' },
+                        { q: '쇼핑할 때 나는?', a: '마음에 들면 가격표 안 보고 지른다.', b: '최저가 검색하고 꼭 필요한지 세 번 생각한다.' },
+                        { q: '지루한 건?', a: '절대 못 참음. 뭐라도 새로운 걸 해야 함.', b: '멍 때리거나 가만히 있는 것도 잘함.' },
+                        { q: '약속 시간에 늦을 것 같다.', a: '요리조리 칼치기 운전/뛰어서라도 빨리 간다.', b: '늦더라도 안전하게 가는 게 낫다.' },
+                        { q: '매운 음식, 독특한 향신료 음식은?', a: '땀 흘리며 도전하는 거 좋아함.', b: '입에 안 맞는 건 굳이 안 먹음. 익숙한 맛 선호.' },
+                        { q: '나의 평소 성격은?', a: '욱하는 기질이 좀 있다.', b: '감정 기복이 크지 않고 차분하다.' },
+                        { q: '처음 보는 사람과 대화는?', a: '어색함 없이 금방 친해지고 말도 잘 건다.', b: '낯을 가리거나 탐색하는 시간이 필요하다.' },
+                        { q: '일을 처리하는 속도는?', a: '실수가 있어도 일단 빨리 끝내는 게 좋다.', b: '늦더라도 꼼꼼하고 완벽하게 하는 게 좋다.' },
+                        { q: '반복되는 일상은?', a: '답답해서 미칠 것 같다. 변화가 필요해.', b: '예측 가능하고 평온해서 좋다.' }
+                    ]
+                },
+                {
+                    id: 'HA',
+                    name: 'PART 2. 걱정이 많아?',
+                    subtitle: '위험 회피 (Harm Avoidance)',
+                    description: '조심성, 불안, 신중함, 비관적 사고',
+                    questions: [
+                        { q: '외출할 때 가스 밸브, 문단속 확인은?', a: '보고 또 보고, 나가서도 찜찜해서 다시 돌아온 적 있다.', b: '한 번 쓱 보면 끝. 별로 신경 안 씀.' },
+                        { q: '건강에 대한 걱정은?', a: '조금만 아파도 "큰 병 아닐까?" 검색해 본다.', b: '자고 일어나면 낫겠지 하고 약도 잘 안 먹음.' },
+                        { q: '중요한 발표를 앞두고 있다면?', a: '실수할까 봐 전날 밤잠을 설친다.', b: '어떻게든 되겠지 하고 푹 잔다.' },
+                        { q: '낯선 골목길을 지나가야 한다면?', a: '무서워서 돌아서라도 큰길로 간다.', b: '그냥 지름길로 간다. 별생각 없음.' },
+                        { q: '미래에 대한 생각은?', a: '노후 자금, 혹시 모를 사고 등 걱정이 많다.', b: '미래보다 현재 즐기는 게 중요하다.' },
+                        { q: '사람들이 나를 쳐다보면?', a: '내 옷에 뭐 묻었나? 내가 이상한가? 신경 쓰임.', b: '내가 오늘 좀 괜찮나? 하거나 신경 안 씀.' },
+                        { q: '새로운 모임에 나갈 때?', a: '어색하고 불편해서 가기 전부터 스트레스받음.', b: '새로운 사람 만날 생각에 설렘.' },
+                        { q: '결정을 내려야 할 때?', a: '잘못된 선택일까 봐 결정을 자꾸 미룬다.', b: '직관적으로 빠르게 딱 정한다.' },
+                        { q: '친구가 카톡을 읽씹하면?', a: '내가 뭐 말실수했나? 대화 내용을 다시 본다.', b: '바쁜가 보네 하고 잊어버림.' },
+                        { q: '운전할 때 (또는 조수석에서)?', a: '방어운전 필수. 옆 차가 끼어들까 봐 늘 긴장.', b: '노래 부르며 여유롭게 운전.' },
+                        { q: '실수했을 때?', a: '이불킥하며 며칠 동안 그 생각이 난다.', b: '그럴 수도 있지 하고 금방 털어낸다.' },
+                        { q: '돈을 빌려줄 때?', a: '못 받을까 봐 걱정돼서 절대 안 빌려줌.', b: '친한 사이면 쿨하게 빌려줌.' },
+                        { q: '여행 짐 쌀 때?', a: '비상약, 바늘, 여분 옷 등 혹시 몰라 짐이 한가득.', b: '여권, 지갑, 폰. 끝.' },
+                        { q: '뉴스를 볼 때?', a: '사건사고 뉴스를 보면 나한테도 일어날까 무섭다.', b: '남의 일이라고 생각하고 덤덤하다.' },
+                        { q: '나는 평소에?', a: '기운이 없고 쉽게 피곤함을 느낀다.', b: '에너지가 넘치고 활기차다.' }
+                    ]
+                },
+                {
+                    id: 'RD',
+                    name: 'PART 3. 사람이 좋아?',
+                    subtitle: '사회적 민감성 (Reward Dependence)',
+                    description: '공감 능력, 인정 욕구, 감수성, 관계 지향',
+                    questions: [
+                        { q: '슬픈 영화나 드라마를 보면?', a: '주인공에 빙의해서 펑펑 운다.', b: '저거 다 연기인데 왜 울어? 눈물 안 남.' },
+                        { q: '친구가 우울하다고 하면?', a: '같이 마음 아파하며 위로해 준다.', b: '왜 우울해? 맛있는 거 먹어 해결책을 준다.' },
+                        { q: '내가 한 일에 대해?', a: '칭찬받고 인정받아야 기분이 좋다.', b: '남들 평가는 상관없고 내 만족이 중요함.' },
+                        { q: '거절을 해야 할 때?', a: '미안해서 빙빙 돌려 말하거나 결국 들어준다.', b: '안 돼라고 칼같이 거절 잘함.' },
+                        { q: '혼밥(혼자 밥 먹기)은?', a: '너무 싫다. 밥은 같이 먹어야 맛있지.', b: '혼자 먹는 게 편하고 좋다.' },
+                        { q: '지나가다 불쌍한 사람/동물을 보면?', a: '그냥 못 지나치고 도와주거나 기부한다.', b: '안타깝지만 내가 어쩔 수 없다고 생각함.' },
+                        { q: '선물을 줄 때?', a: '상대방의 반응을 상상하며 포장부터 신경 씀.', b: '그냥 실용적인 거 툭 줌.' },
+                        { q: '대화할 때 리액션은?', a: '헐! 대박! 진짜? 리액션 부자.', b: '음.. 그래. 조용한 편.' },
+                        { q: '나의 비밀을?', a: '친한 사람들에게 다 털어놓고 공유한다.', b: '아무리 친해도 속마음은 잘 안 보여줌.' },
+                        { q: '여럿이 모인 자리에서?', a: '분위기가 처지면 내가 나서서 띄워야 마음 편함.', b: '침묵이 흘러도 별로 안 불편함.' },
+                        { q: '옛날 추억의 물건은?', a: '편지, 선물 등 소중해서 못 버림.', b: '쓸모없으면 과감하게 버림.' },
+                        { q: '친구가 머리를 자르고 왔는데 이상하다.', a: '상처받을까 봐 개성 있다, 괜찮네 해준다.', b: '야, 망했다. 어디서 잘랐냐? 솔직하게 말함.' },
+                        { q: 'SNS(인스타 등)는?', a: '좋아요와 댓글 알림에 민감하다.', b: '하든 말든 남들 반응 신경 안 씀.' },
+                        { q: '따뜻하고 감성적인 분위기?', a: '너무 좋다. 감성에 잘 젖는다.', b: '오글거려서 못 참겠다.' },
+                        { q: '누군가 나를 싫어한다면?', a: '계속 신경 쓰이고 마음이 힘들다.', b: '싫어하든가 말든가 내 알 바 아님.' }
+                    ]
+                },
+                {
+                    id: 'P',
+                    name: 'PART 4. 끝까지 해내?',
+                    subtitle: '인내력 (Persistence)',
+                    description: '끈기, 성취욕, 완벽주의, 승부욕',
+                    questions: [
+                        { q: '한번 시작한 일은?', a: '밤을 새워서라도 끝장을 봐야 한다.', b: '힘들거나 재미없으면 중간에 그만둘 수 있다.' },
+                        { q: '게임이나 내기에서 지면?', a: '분해서 잠이 안 온다. 이길 때까지 해야 함.', b: '졌네? ㅋㅋㅋ 하고 쿨하게 끝냄.' },
+                        { q: '운동이나 다이어트를 결심하면?', a: '비가 오나 눈이 오나 정한 스케줄은 지킨다.', b: '오늘은 좀 쉬자 하고 타협을 잘함.' },
+                        { q: '맛집 줄이 2시간이다.', a: '오기로 기다려서 먹는다.', b: '바로 포기하고 딴 데 간다.' },
+                        { q: '어려운 과제가 주어지면?', a: '도전 의식이 불타오르고 열심히 파고든다.', b: '최대한 쉽게 하는 방법 없나? 요령을 찾는다.' },
+                        { q: '청소할 때?', a: '눈에 안 보이는 구석 먼지까지 완벽하게 해야 함.', b: '눈에 보이는 곳만 대충 깨끗하면 됨.' },
+                        { q: '피곤한 상태에서 해야 할 일이 있다면?', a: '피로회복제 먹어가며 끝내놓고 쉰다.', b: '일단 쉬고 컨디션 좋을 때 한다.' },
+                        { q: '나는 평소에?', a: '열심, 노력, 근성이라는 말을 좋아한다.', b: '가성비, 효율, 융통성이라는 말을 좋아한다.' },
+                        { q: '두꺼운 전공 서적이나 재미없는 책을 읽을 때?', a: '이해 안 돼도 끝까지 읽는다.', b: '필요한 부분만 발췌독하거나 덮는다.' },
+                        { q: '성공을 위해서라면?', a: '현재의 즐거움은 희생할 수 있다.', b: '현재 누리는 행복이 더 중요하다.' },
+                        { q: '누가 "그건 안 될 거야"라고 하면?', a: '보란 듯이 해낸다며 더 열심히 함.', b: '그런가? 하고 빨리 수긍함.' },
+                        { q: '약속이나 규칙은?', a: '하늘이 두 쪽 나도 지켜야 한다.', b: '상황에 따라 바뀔 수도 있다.' },
+                        { q: '보상이 없어도 봉사활동 등을 꾸준히 할 수 있나?', a: '의미가 있다면 꾸준히 한다.', b: '보상이 없으면 동기부여가 안 된다.' },
+                        { q: '퍼즐 맞추기나 단순 반복 작업을 시키면?', a: '다 맞출 때까지 엉덩이 안 떼고 집중한다.', b: '좀 하다가 지루해서 몸을 비 꼰다.' },
+                        { q: '나의 인생 모토는?', a: '대기만성 (꾸준함이 답이다).', b: '일확천금 (한방이 최고다 / 운이 중요).' }
+                    ]
+                }
+            ]
+        };
+
+        let currentPartIndex = 0;
+        let currentQuestionIndex = 0;
+        let answerDetails = {
+            NS: { A: 0, B: 0 },
+            HA: { A: 0, B: 0 },
+            RD: { A: 0, B: 0 },
+            P: { A: 0, B: 0 }
+        };
+
+        function startTest() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('testScreen').style.display = 'block';
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const part = testData.parts[currentPartIndex];
+            const question = part.questions[currentQuestionIndex];
+            const totalQuestions = testData.parts.reduce((sum, p) => sum + p.questions.length, 0);
+            const currentTotal = testData.parts.slice(0, currentPartIndex).reduce((sum, p) => sum + p.questions.length, 0) + currentQuestionIndex + 1;
+
+            const progress = (currentTotal / totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `${currentTotal} / ${totalQuestions} 문항 💪`;
+
+            document.getElementById('partIndicator').innerHTML = `
+                <h3>${part.name}</h3>
+                <p>${part.description}</p>
+            `;
+
+            document.getElementById('questionNumber').textContent = `Q${currentQuestionIndex + 1}`;
+            document.getElementById('questionText').textContent = question.q;
+            document.getElementById('choiceA').textContent = question.a;
+            document.getElementById('choiceB').textContent = question.b;
+        }
+
+        function selectAnswer(choice) {
+            const part = testData.parts[currentPartIndex];
+            answerDetails[part.id][choice]++;
+
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex >= part.questions.length) {
+                currentPartIndex++;
+                currentQuestionIndex = 0;
+
+                if (currentPartIndex >= testData.parts.length) {
+                    showResult();
+                    return;
+                }
+            }
+
+            showQuestion();
+        }
+
+        function showResult() {
+            document.getElementById('testScreen').style.display = 'none';
+            document.getElementById('resultScreen').style.display = 'block';
+
+            const typeCode = testData.parts.map(part =>
+                answerDetails[part.id].A >= answerDetails[part.id].B ? 'A' : 'B'
+            ).join('');
+
+            const animalData = animalTypes[typeCode];
+            const solutionData = solutions[typeCode];
+
+            // 동물 정보 표시
+            document.getElementById('resultAnimal').textContent = animalData.emoji;
+            document.getElementById('resultTypeCode').textContent = typeCode;
+            document.getElementById('resultNickname').textContent = animalData.nickname;
+            document.getElementById('resultOneLine').textContent = animalData.oneLine;
+            document.getElementById('groupBadge').textContent = animalData.group;
+
+            // 해시태그
+            const hashtagsContainer = document.getElementById('hashtags');
+            hashtagsContainer.innerHTML = animalData.hashtags.map(tag =>
+                `<span class="hashtag">${tag}</span>`
+            ).join('');
+
+            // 점수 요약
+            const scoreSummary = document.getElementById('scoreSummary');
+            scoreSummary.innerHTML = '<h3>📊 당신의 선택 결과</h3>';
+
+            testData.parts.forEach(part => {
+                const aCount = answerDetails[part.id].A;
+                const bCount = answerDetails[part.id].B;
+                const result = aCount >= bCount ? 'A' : 'B';
+
+                const scoreItem = document.createElement('div');
+                scoreItem.className = 'score-item';
+                scoreItem.innerHTML = `
+                    <div class="score-label">${part.name}</div>
+                    <div class="score-value">
+                        <span class="score-count score-a">A: ${aCount}개</span>
+                        <span class="score-count score-b">B: ${bCount}개</span>
+                        <span class="score-result">${result}</span>
+                    </div>
+                `;
+                scoreSummary.appendChild(scoreItem);
+            });
+
+            // 궁합
+            document.getElementById('compatibilityBest').textContent = animalData.compatibility.best.join('\n');
+            document.getElementById('compatibilityWorst').textContent = animalData.compatibility.worst.join('\n');
+
+            // 리포트
+            const reportContent = document.getElementById('reportContent');
+            reportContent.innerHTML = `
+                <div class="report-section">
+                    <div class="report-title">✨ ${animalData.animal}는 이런 성향이에요</div>
+                    <div class="report-content">${animalData.description}</div>
+                </div>
+
+                <div class="solution-section">
+                    <div class="solution-item">
+                        <div class="solution-title">🌱 10대를 위한 솔루션</div>
+                        <div class="solution-content">${solutionData.teen}</div>
+                    </div>
+                    <div class="solution-item">
+                        <div class="solution-title">🎓 20대를 위한 솔루션</div>
+                        <div class="solution-content">${solutionData.twenties}</div>
+                    </div>
+                    <div class="solution-item">
+                        <div class="solution-title">💼 30대를 위한 솔루션</div>
+                        <div class="solution-content">${solutionData.thirties}</div>
+                    </div>
+                </div>
+            `;
+
+            // 스크롤을 최상단으로
+            document.querySelector('.result-screen').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function shareResult() {
+            const typeCode = testData.parts.map(part =>
+                answerDetails[part.id].A >= answerDetails[part.id].B ? 'A' : 'B'
+            ).join('');
+            const animalData = animalTypes[typeCode];
+
+            const shareText = `나의 숨겨진 본능 동물은... ${animalData.emoji} ${animalData.nickname}!\n\n${animalData.oneLine}\n\n당신도 테스트해보세요! 🐾`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: '나의 숨겨진 본능 동물은?',
+                    text: shareText,
+                    url: window.location.href
+                }).catch(() => {
+                    copyToClipboard(shareText);
+                });
+            } else {
+                copyToClipboard(shareText);
+            }
+        }
+
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('📋 결과가 클립보드에 복사되었습니다!\n친구들에게 공유해보세요!');
+        }
+
+        function restartTest() {
+            currentPartIndex = 0;
+            currentQuestionIndex = 0;
+            answerDetails = {
+                NS: { A: 0, B: 0 },
+                HA: { A: 0, B: 0 },
+                RD: { A: 0, B: 0 },
+                P: { A: 0, B: 0 }
+            };
+
+            document.getElementById('resultScreen').style.display = 'none';
+            document.getElementById('startScreen').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
