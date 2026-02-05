@@ -137,7 +137,7 @@ assets/images/
 
 ## 👤 개발자
 
-Yu Jeong Hui
+Michelle Yu
 
 ---
 
